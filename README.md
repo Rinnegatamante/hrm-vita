@@ -17,6 +17,15 @@ By doing so, it's basically as if we emulate a minimalist Android environment in
 
 You need a legally acquired copy of the v.1.0.5 of Human Resource Machine for Android in order to use this wrapper since it's the last version featuring an ARMv7 build.
 
+## Controls Binding
+
+- X = Play
+- Square = Restart
+- R Trigger = Next Move
+- L Trigger = Previous Move
+- Start = Back
+- Triangle = Mute/Unmute
+
 ## Setup Instructions (For End Users)
 
 - Install [kubridge](https://github.com/TheOfficialFloW/kubridge/releases/) and [FdFix](https://github.com/TheOfficialFloW/FdFix/releases/) by copying `kubridge.skprx` and `fd_fix.skprx` to your taiHEN plugins folder (usually `ux0:tai`) and adding two entries to your `config.txt` under `*KERNEL`:
