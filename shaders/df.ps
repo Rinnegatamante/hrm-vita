@@ -1,0 +1,21 @@
+// profile sce_fp_psp2
+
+#ifdef GLES
+#endif
+
+// in
+
+uniform sampler2D sSampler;
+
+uniform float4 sParams;
+
+void main(
+	float4 v_color : COLOR,
+	float2 v_texCoord0: TEXCOORD0,
+	float4 out gl_FragColor : COLOR
+) {
+	float window = sParams.x;
+	float4 finalColor = float4(smoothstep( 0.5 - window, 0.5 + window, tex2D( sSampler, v_texCoord0).a ));
+	finalColor *= v_color;
+	gl_FragColor = finalColor;
+}

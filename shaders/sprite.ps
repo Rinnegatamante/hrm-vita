@@ -1,0 +1,24 @@
+// profile sce_fp_psp2
+
+#ifdef GLES
+#endif
+#ifdef NO_BGRA
+#define tex2D( x, y ) tex2D( x, y ).bgra
+#else
+#define texture2D texture2D
+#endif
+
+// in
+
+// the is important here as otherwise you only get about 1/2 texel sample
+// precision for a 1k texture
+
+uniform sampler2D sSampler;
+
+void main(
+	float4 v_color : COLOR,
+	float2 v_texCoord0: TEXCOORD0,
+	float4 out gl_FragColor : COLOR
+) {
+	gl_FragColor = tex2D( sSampler, v_texCoord0) * v_color;
+}
