@@ -1,0 +1,22 @@
+// profile sce_fp_psp2
+
+#ifdef GLES
+#endif
+
+// in
+
+uniform float4 sParams;
+
+void main(
+	float4 v_color : COLOR,
+	float2 v_texCoord0: TEXCOORD0,
+	float4 out gl_FragColor : COLOR
+) {
+	float4 finalColor;
+
+	float a = smoothstep( 0.5, 0.5 - sParams.x, abs(v_texCoord0.y - 0.5) );
+
+	finalColor = v_color * a;
+
+	gl_FragColor = finalColor;
+}

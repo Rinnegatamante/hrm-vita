@@ -1,0 +1,42 @@
+// profile sce_fp_psp2
+
+#ifdef GLES
+#endif
+#ifdef NO_BGRA
+#define tex2D( x, y ) tex2D( x, y ).bgra
+#else
+#define texture2D texture2D
+#endif
+
+// in
+
+// the is important here as otherwise you only get about 1/2 texel sample
+// precision for a 1k texture
+
+uniform sampler2D sSampler;
+
+uniform float4 sParams[3];
+
+void main(
+	float4 v_color : COLOR,
+	float2 v_texCoord0: TEXCOORD0,
+	float4 out gl_FragColor : COLOR
+) {
+	float4 finalColor = tex2D( sSampler, v_texCoord0);
+
+    // un-premultiply to do the bcsh mods
+    // if you brightness up an alpha'd out pixel the result should still be transparent in the end
+    // which wouldn't happen if i add to the premult alpha channel values
+    if( finalColor.a > 0.0 )
+    {
+		float4 s = float4( finalColor.rgb / finalColor.a, 1.0 );
+	    
+		finalColor.r = dot( s, sParams[0] ) * finalColor.a;
+		finalColor.g = dot( s, sParams[1] ) * finalColor.a;
+		finalColor.b = dot( s, sParams[2] ) * finalColor.a;
+	}
+
+	finalColor *= v_color;
+
+    gl_FragColor = finalColor;
+}

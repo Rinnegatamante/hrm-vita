@@ -1,0 +1,36 @@
+// profile sce_fp_psp2
+
+#ifdef GLES
+#endif
+
+// in
+
+uniform float4 sParams;
+
+void main(
+	float4 v_color : COLOR,
+	float2 v_texCoord0: TEXCOORD0,
+	float4 out gl_FragColor : COLOR
+) {
+	//float len = ((((v_color.g * 256.0) + v_color.b) * 255.0) / 65535.0) * sParams.y;
+
+	// need to do it this way to avoid getting clamped by intermediate precision
+	float len = (((v_color.g * 256.0) + v_color.b) / 257.0) * sParams.y;
+
+	float2 p = float2( v_texCoord0.x * (len + 1.0), v_texCoord0.y );	
+	float2 p0 = float2( 0.5, 0.5 );
+	float2 dir = float2( 1.0, 0.0 );
+	float rad = 0.5;
+	
+	float2 p0p = p - p0;
+	float projDist = clamp( dot( p0p, dir ), 0.0, len );
+	float2 projPt = p0 + (dir * projDist);
+	float distToSeg = length( projPt - p );
+	
+	float pixSize = 1.0 / (2.0 * sParams.x);
+	float thresh = pixSize * 0.707;
+	float a = smoothstep( rad + thresh, rad - thresh, distToSeg );
+
+	float4 finalColor = float4( 0.0, 0.0, 0.0, a );
+	gl_FragColor = finalColor;
+}
