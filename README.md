@@ -9,6 +9,10 @@ By doing so, it's basically as if we emulate a minimalist Android environment in
 
 ## Changelog
 
+### v1.1
+
+- Made so that game won't show up anymore the rotation screen tooltip.
+
 ### v1.0
 
 - Initial release.

@@ -1505,7 +1505,12 @@ int SetContextVersion(int version) {
 	return version;
 }
 
+int GetCurrentPlatformClass() {
+	return 2;
+}
+
 void patch_game(void) {
+	hook_addr(so_symbol(&hrm_mod, "_Z23GetCurrentPlatformClassv"), GetCurrentPlatformClass);
 	hook_addr(so_symbol(&hrm_mod, "_Z21SDL2SetContextVersioni"), SetContextVersion);
 	hook_addr(so_symbol(&hrm_mod, "_Z23GetSlowTrulyRandomValuev"), GetSlowTrulyRandomValue);
 	hook_addr(so_symbol(&hrm_mod, "_Z22PfmGetSystemLanguageIdv"), PfmGetSystemLanguageId);
