@@ -9,6 +9,12 @@ By doing so, it's basically as if we emulate a minimalist Android environment in
 
 ## Changelog
 
+### v1.2
+
+- Slightly improved levels loading times.
+- Improved rendering logic. Now rendering is faster.
+- Solved a bug causing sporadic GPU crashes.
+
 ### v1.1
 
 - Made so that game won't show up anymore the rotation screen tooltip.
