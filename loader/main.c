@@ -1509,11 +1509,22 @@ int GetCurrentPlatformClass() {
 	return 2;
 }
 
+so_hook ogl_hook;
+
+int ogl_LoadFunctions() {
+	int r = SO_CONTINUE(int, ogl_hook);
+	int *mapbuffer_ext = (int *)so_symbol(&hrm_mod, "ogl_ext_OES_mapbuffer");
+	//printf("MapBufferExt: %d\n", *mapbuffer_ext);
+	*mapbuffer_ext = 1;
+	return r;
+}
+
 void patch_game(void) {
 	hook_addr(so_symbol(&hrm_mod, "_Z23GetCurrentPlatformClassv"), GetCurrentPlatformClass);
 	hook_addr(so_symbol(&hrm_mod, "_Z21SDL2SetContextVersioni"), SetContextVersion);
 	hook_addr(so_symbol(&hrm_mod, "_Z23GetSlowTrulyRandomValuev"), GetSlowTrulyRandomValue);
 	hook_addr(so_symbol(&hrm_mod, "_Z22PfmGetSystemLanguageIdv"), PfmGetSystemLanguageId);
+	ogl_hook = hook_addr(so_symbol(&hrm_mod, "ogl_LoadFunctions"), ogl_LoadFunctions);
 	
 	// openAL
 	hook_addr(so_symbol(&hrm_mod, "alAuxiliaryEffectSlotf"), (uintptr_t)alAuxiliaryEffectSlotf);
