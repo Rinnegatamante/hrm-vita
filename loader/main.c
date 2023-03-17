@@ -498,6 +498,7 @@ int chdir_hook(const char *path) {
 
 static so_default_dynlib gl_hook[] = {
 	{"glDetachShader", (uintptr_t)&ret0},
+	{"glClear", (uintptr_t)&ret0}, // Game likes to spam glClear on level loads on different fbos causing a skyrocket on sceGxm scenes count
 };
 static size_t gl_numhook = sizeof(gl_hook) / sizeof(*gl_hook);
 
