@@ -47,6 +47,7 @@
 #include "dialog.h"
 #include "so_util.h"
 #include "sha1.h"
+#include "trophies.h"
 
 #ifdef DEBUG
 #define dlog printf
@@ -1520,11 +1521,68 @@ int ogl_LoadFunctions() {
 	return r;
 }
 
+enum {
+	PLATINUM, // Done
+	GREEN_OPT, // Done
+	BLUE_OPT, // Done
+	ORANGE_OPT, // Done
+	QUEEN_INEFF, // Done
+	SOCIAL_ENG, // Done
+	KING_VERBOS, // Done
+	CAREER_MILE_1, // Done
+	CAREER_MILE_2, // Done
+	CAREER_MILE_3, // Done
+	CAREER_MILE_4, // Done
+	CAREER_MILE_5, // Done
+	CAREER_MILE_6, // Done
+	OVERFLOW, // Done
+	OUT_OF_BOUNDS, // Done
+	SOLUTION_NOT_ROBUST, // Done
+	EXCELLENT // Done
+};
+
+void UnlockGooglePlayAchievement(char *ach) {
+	if (!strcmp("ALL_LEVELS_COMPLETE", ach)) {
+		trophies_unlock(EXCELLENT);
+	} else if (!strcmp("SOCIAL_ENGINEER", ach)) {
+		trophies_unlock(SOCIAL_ENG);
+	} else if (!strcmp("CAREER_MILESTONE_1", ach)) {
+		trophies_unlock(CAREER_MILE_1);
+	} else if (!strcmp("CAREER_MILESTONE_2", ach)) {
+		trophies_unlock(CAREER_MILE_2);
+	} else if (!strcmp("CAREER_MILESTONE_3", ach)) {
+		trophies_unlock(CAREER_MILE_3);
+	} else if (!strcmp("CAREER_MILESTONE_4", ach)) {
+		trophies_unlock(CAREER_MILE_4);
+	} else if (!strcmp("CAREER_MILESTONE_5", ach)) {
+		trophies_unlock(CAREER_MILE_5);
+	} else if (!strcmp("CAREER_MILESTONE_6", ach)) {
+		trophies_unlock(CAREER_MILE_6);
+	} else if (!strcmp("OPTIMIZATION_ORANGE", ach)) {
+		trophies_unlock(ORANGE_OPT);
+	} else if (!strcmp("OPTIMIZATION_GREEN", ach)) {
+		trophies_unlock(GREEN_OPT);
+	} else if (!strcmp("OPTIMIZATION_BLUE", ach)) {
+		trophies_unlock(BLUE_OPT);
+	} else if (!strcmp("FAILURE_ROBUST", ach)) {
+		trophies_unlock(SOLUTION_NOT_ROBUST);
+	} else if (!strcmp("FAILURE_BOUNDS", ach)) {
+		trophies_unlock(OUT_OF_BOUNDS);
+	} else if (!strcmp("FAILURE_OVERFLOW", ach)) {
+		trophies_unlock(OVERFLOW);
+	} else if (!strcmp("VERBOSITY", ach)) {
+		trophies_unlock(KING_VERBOS);
+	} else if (!strcmp("INEFFICIENCY", ach)) {
+		trophies_unlock(QUEEN_INEFF);
+	}
+}
+
 void patch_game(void) {
 	hook_addr(so_symbol(&hrm_mod, "_Z23GetCurrentPlatformClassv"), GetCurrentPlatformClass);
 	hook_addr(so_symbol(&hrm_mod, "_Z21SDL2SetContextVersioni"), SetContextVersion);
 	hook_addr(so_symbol(&hrm_mod, "_Z23GetSlowTrulyRandomValuev"), GetSlowTrulyRandomValue);
 	hook_addr(so_symbol(&hrm_mod, "_Z22PfmGetSystemLanguageIdv"), PfmGetSystemLanguageId);
+	hook_addr(so_symbol(&hrm_mod, "_Z27UnlockGooglePlayAchievementPKc"), UnlockGooglePlayAchievement);
 	ogl_hook = hook_addr(so_symbol(&hrm_mod, "ogl_LoadFunctions"), ogl_LoadFunctions);
 	
 	// openAL
@@ -1784,6 +1842,15 @@ int main(int argc, char *argv[]) {
 	so_initialize(&hrm_mod);
 	
 	vglInitExtended(0, SCREEN_W, SCREEN_H, MEMORY_VITAGL_THRESHOLD_MB * 1024 * 1024, SCE_GXM_MULTISAMPLE_4X);
+	
+	// Initing trophy system
+	SceIoStat st;
+	int r = trophies_init();
+	if (r < 0 && sceIoGetstat(TROPHIES_FILE, &st) < 0) {
+		FILE *f = fopen(TROPHIES_FILE, "w");
+		fclose(f);
+		warning("This game features unlockable trophies but NoTrpDrm is not installed. If you want to be able to unlock trophies, please install it.");
+	}
 	
 	memset(fake_vm, 'A', sizeof(fake_vm));
 	*(uintptr_t *)(fake_vm + 0x00) = (uintptr_t)fake_vm; // just point to itself...

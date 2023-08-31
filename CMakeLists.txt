@@ -23,6 +23,7 @@ add_executable(HRM
   loader/so_util.c
   loader/sha1.c
   loader/ctype_patch.c
+  loader/trophies.c
 )
 
 target_link_libraries(HRM
@@ -73,6 +74,7 @@ target_link_libraries(HRM
   SceHid_stub
   SceVshBridge_stub
   SceKernelDmacmgr_stub
+  SceNpTrophy_stub
 )
 
 vita_create_self(eboot.bin HRM UNSAFE)
@@ -84,4 +86,5 @@ vita_create_vpk(HRM.vpk ${VITA_TITLEID} eboot.bin
        ${CMAKE_SOURCE_DIR}/livearea/icon0.png sce_sys/icon0.png
        ${CMAKE_SOURCE_DIR}/livearea/pic0.png sce_sys/pic0.png
        ${CMAKE_SOURCE_DIR}/livearea/template.xml sce_sys/livearea/contents/template.xml
+       ${CMAKE_SOURCE_DIR}/livearea/TROPHY.TRP sce_sys/trophy/HUMR00001_00/TROPHY.TRP
 )

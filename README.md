@@ -9,6 +9,11 @@ By doing so, it's basically as if we emulate a minimalist Android environment in
 
 ## Changelog
 
+### v1.3
+
+- Updated to latest vitaGL build.
+- Added trophies support. (requires NoTrpDrm)
+
 ### v1.2
 
 - Slightly improved levels loading times.
@@ -54,6 +59,7 @@ You need a legally acquired copy of the v.1.0.5 of Human Resource Machine for An
 - Open the apk with your zip explorer and extract the files `libHumanResourceMachine.so` and `libc++_shared.so` from the `lib/armeabi-v7a` folder to `ux0:data/hrm`.
 - Extract the `assets` folder inside `ux0:data/hrm`.
 - Download `datafiles.zip` from the Release tab of this repository and extract it in `ux0:data`.
+**Optional**: For trophies to be unlockable, install [NoTrpDRM](https://github.com/Rinnegatamante/NoTrpDrm).
 
 ## Build Instructions (For Developers)
 
