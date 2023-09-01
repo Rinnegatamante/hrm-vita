@@ -86,5 +86,5 @@ vita_create_vpk(HRM.vpk ${VITA_TITLEID} eboot.bin
        ${CMAKE_SOURCE_DIR}/livearea/icon0.png sce_sys/icon0.png
        ${CMAKE_SOURCE_DIR}/livearea/pic0.png sce_sys/pic0.png
        ${CMAKE_SOURCE_DIR}/livearea/template.xml sce_sys/livearea/contents/template.xml
-       ${CMAKE_SOURCE_DIR}/livearea/TROPHY.TRP sce_sys/trophy/HUMR00001_00/TROPHY.TRP
+       ${CMAKE_SOURCE_DIR}/livearea/TROPHY.TRP sce_sys/trophy/HURM00001_00/TROPHY.TRP
 )
