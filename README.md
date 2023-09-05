@@ -8,6 +8,9 @@ The port works by loading the official Android ARMv7 executable in memory, resol
 By doing so, it's basically as if we emulate a minimalist Android environment in which we run natively the executable as is.
 
 ## Changelog
+### v1.3.1
+
+- Updated trophies icons to hi-res versions.
 
 ### v1.3
 
